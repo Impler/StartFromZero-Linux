@@ -32,15 +32,22 @@ Dockerfile内容如下:
 	`run tar zxvf jdk-7u67-linux-x64.tar.gz` #解压到当前目录下  
 	`ENV JAVA_HOME /opt/java/jdk1.7.0_67` #设置环境变量  
 	`ENV PATH $PATH:$JAVA_HOME/bin`  
-![Dockerfile文件](images/docker/windows/install/Dockerfile文件.png "Dockerfile文件")  
+![Dockerfile文件](images/docker/windows/installjdk/Dockerfile文件.png "Dockerfile文件")  
 ESC+:wq保存退出  
 *注意：*经测试copy 命令只能拷贝与Dockerfile同级目录文件，所以在编写Dockerfile文件之前，先把jdk压缩包拷贝到Dockerfile同级目录  
-![整个过程](images/docker/windows/install/过程.png "安装过程")
+![整个过程](images/docker/windows/installjdk/过程.png "安装过程")
 
 4.启动容器并测试  
 	`docker run -i -t --name hello hello-java`  
 	`java -version`
 ![测试容器](images/docker/windows/install/测试容器.png "测试容器")  
+
+####在现有容器中安装tomcat
+#####从主机上拷贝文件到容器中
+1. sudo cp [host file path] /var/lib/docker/aufs/mnt/[full container id]/[target file path]  
+	`sudo cp /share/apache-tomcat-7.0.64.tar.gz /var/lib/docker/aufs/mnt/eaf8779...c8a7ee/opt/tomcat/tomcat.tar.gz`  
+
+
 
 
 ##Docker常用命令
