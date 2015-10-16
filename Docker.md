@@ -3,11 +3,21 @@
 ##Docker实战
 ###在windows中使用Docker
 ####安装
-1 到https://www.docker.com/toolbox下载Docker Toolbox（支持Mac OS X 10.8+ 和 Windows(64bit) 7+）软件并安装，安装过程中记得勾选安装VirtualBox虚拟机，将会自动在虚拟机中安装CentOS系统。
-2 为了方便操作，我们为CentOS挂在本地共享目录。
-![共享本地目录][images/docker/windows/install/共享本地目录.png "共享本地目录"]
-3 通过Docker Quickstart Terminal启动程序，第一次启动较慢，因为要拉起虚拟机启动CentOS系统。
-![首屏][images/docker/windows/install/首屏.png "首屏"]
+1 到https://www.docker.com/toolbox下载Docker Toolbox（支持Mac OS X 10.8+ 和 Windows(64bit) 7+）软件并安装，安装过程中记得勾选安装VirtualBox虚拟机，将会自动在虚拟机中安装CentOS系统。  
+2 通过Docker Quickstart Terminal启动程序，第一次启动较慢，因为要拉起虚拟机启动CentOS系统。  CentOS中已经安装好了docker，我们可以通过命令查看:  
+	docker version
+![首屏][images/docker/windows/install/首屏.png "首屏"]  
+3 为了方便操作，我们为CentOS挂在本地共享目录。  
+![共享本地目录][images/docker/windows/install/共享本地目录.png "共享本地目录"]  
+
+4 将共享目录挂载到CentOS中的/share目录  
+	mkdir /share
+	sudo mount –t vboxsf /VMShare /share  
+测试：  
+	cd /share 
+	ll
+![测试共享目录][images/docker/windows/install/测试共享目录.png "测试共享目录"]  
+
 
 
 ##Docker常用命令
