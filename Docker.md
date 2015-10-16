@@ -23,7 +23,7 @@
 2. 为了提高效率，采用非在线安装方式，即先下载jdk压缩文件，然后解压，设置环境变量
 3. 编辑Dockerfile文件，注意应该在~目录(root用户为/root，普通用户为/home)下创建编辑Dockerfile
 	`vi Dockerfile`  
-Dockerfile内容如下:
+Dockerfile内容如下:  
 	`from centos` #基础镜像  
 	`maintainer imper <704090860@qq.com>` #签名  
 	`run mkdir /opt/java` #创建java安装目录  
