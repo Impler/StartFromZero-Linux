@@ -37,7 +37,10 @@ ESC+:wq保存退出
 *注意：*经测试copy 命令只能拷贝与Dockerfile同级目录文件，所以在编写Dockerfile文件之前，先把jdk压缩包拷贝到Dockerfile同级目录  
 ![整个过程](images/docker/windows/install/过程.png "安装过程")
 
-4.
+4.启动容器并测试
+	`docker run -i -t --name hello hello-java`  
+	`java -version`
+![测试容器](images/docker/windows/install/测试容器.png "测试容器")  
 
 
 ##Docker常用命令
