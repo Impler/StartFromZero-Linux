@@ -32,10 +32,10 @@ Dockerfile内容如下:
 	`run tar zxvf jdk-7u67-linux-x64.tar.gz` #解压到当前目录下  
 	`ENV JAVA_HOME /opt/java/jdk1.7.0_67` #设置环境变量  
 	`ENV PATH $PATH:$JAVA_HOME/bin`  
-![Dockerfile文件](images/docker/windows/install/Dockerfile文件.png, "Dockerfile文件")  
+![Dockerfile文件](images/docker/windows/install/Dockerfile文件.png "Dockerfile文件")  
 ESC+:wq保存退出  
 *注意：*经测试copy 命令只能拷贝与Dockerfile同级目录文件，所以在编写Dockerfile文件之前，先把jdk压缩包拷贝到Dockerfile同级目录  
-![整个过程](images/docker/windows/install/过程.png, "安装过程")
+![整个过程](images/docker/windows/install/过程.png "安装过程")
 
 4.
 
