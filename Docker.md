@@ -1,5 +1,15 @@
 #Docker
 
+##Docker实战
+###在windows中使用Docker
+####安装
+1 到https://www.docker.com/toolbox下载Docker Toolbox（支持Mac OS X 10.8+ 和 Windows(64bit) 7+）软件并安装，安装过程中记得勾选安装VirtualBox虚拟机，将会自动在虚拟机中安装CentOS系统。
+2 为了方便操作，我们为CentOS挂在本地共享目录。
+![共享本地目录][images/docker/windows/install/共享本地目录.png "共享本地目录"]
+3 通过Docker Quickstart Terminal启动程序，第一次启动较慢，因为要拉起虚拟机启动CentOS系统。
+![首屏][images/docker/windows/install/首屏.png "首屏"]
+
+
 ##Docker常用命令
 
 - docker version: 显示docker版本
