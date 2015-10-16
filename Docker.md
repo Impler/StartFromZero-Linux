@@ -40,13 +40,13 @@ ESC+:wq保存退出
 4.启动容器并测试  
 	`docker run -i -t --name hello hello-java`  
 	`java -version`
-![测试容器](images/docker/windows/install/测试容器.png "测试容器")  
+![测试容器](images/docker/windows/installjdk/测试容器.png "测试容器")  
 
 ####在现有容器中安装tomcat
 #####从主机上拷贝文件到容器中
 1. sudo cp [host file path] /var/lib/docker/aufs/mnt/[full container id]/[target file path]  
 	`sudo cp /share/apache-tomcat-7.0.64.tar.gz /var/lib/docker/aufs/mnt/eaf8779...c8a7ee/opt/tomcat/tomcat.tar.gz`  
-
+![从主机上拷贝文件到容器中](images/docker/windows/installtomcat/从主机上拷贝文件到容器中.png "从主机上拷贝文件到容器中")
 
 
 
