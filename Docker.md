@@ -36,7 +36,7 @@ Dockerfile内容如下:
 ESC+:wq保存退出  
 *注意：*经测试copy 命令只能拷贝与Dockerfile同级目录文件，所以在编写Dockerfile文件之前，先把jdk压缩包拷贝到Dockerfile同级目录  
 4. 创建镜像  
-	`docker build [image name] .` #根据Dockerfile配置，生成镜像  
+	`docker build [option] [image name] .` #根据Dockerfile配置，生成镜像  
 ![整个过程](images/docker/windows/installjdk/过程.png "安装过程")  
 5. 启动容器并测试  
 	`docker run -i -t --name hello hello-java`  
