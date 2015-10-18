@@ -56,12 +56,17 @@ ESC+:wq保存退出
 	Ubuntu系统中自带Docker包，但通过此种方式安装的Docker版本较低，所以不推荐，这里不再累述
 - 通过Docker源安装
 	依次输入以下命令：  
-    `sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9`
-    `sudo bash -c "echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"`
-	`sudo apt-get update`
-	`sudo apt-get install lxc-docker`
-    最后确认是否安装成功：docker version
-![Docker版本](images/docker/ubuntu/install/Docker版本.png "Docker版本")
+    `sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9`  
+    `sudo bash -c "echo deb https://get.docker.io/ubuntu docker main >   /etc/apt/sources.list.d/docker.list"`  
+	`sudo apt-get update`  
+	`sudo apt-get install lxc-docker`  
+    最后确认是否安装成功：docker version  
+![Docker版本](images/docker/ubuntu/install/Docker版本.png "Docker版本")  
+	- 免sudo操作Docker
+		每次使用Docker，都要在命令前加sudo（表示获取root权限执行），特别不方便，为此，我们将当前用户加入到docker group中即可。
+        `sudo groupadd docker` #创建docker group  
+        `sudo gpasswd -a impler docker` #将当前用户加入到docker group  
+        `sudo service docker restart` #重启docker服务
 
 
 
