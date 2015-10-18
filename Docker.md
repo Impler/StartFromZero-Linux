@@ -48,6 +48,21 @@ ESC+:wq保存退出
 	`sudo cp /share/apache-tomcat-7.0.64.tar.gz /var/lib/docker/aufs/mnt/eaf8779...c8a7ee/opt/tomcat/tomcat.tar.gz`  
 ![从主机上拷贝文件到容器中](images/docker/windows/installtomcat/从主机上拷贝文件到容器中.png "从主机上拷贝文件到容器中")
 
+###在Ubuntu中使用docker
+####安装
+当前系统版本号为Ubuntu 14.04  
+有两种Docker方式：
+- 通过系统自带安装包
+	Ubuntu系统中自带Docker包，但通过此种方式安装的Docker版本较低，所以不推荐，这里不再累述
+- 通过Docker源安装
+	依次输入以下命令：  
+    `sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9`
+    `sudo bash -c "echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"`
+	`sudo apt-get update`
+	`sudo apt-get install lxc-docker`
+    最后确认是否安装成功：docker version
+![Docker版本](images/docker/ubuntu/install/Docker版本.png "Docker版本")
+
 
 
 ##Docker常用命令
