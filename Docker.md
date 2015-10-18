@@ -35,9 +35,10 @@ Dockerfile内容如下:
 ![Dockerfile文件](images/docker/windows/installjdk/Dockerfile文件.png "Dockerfile文件")  
 ESC+:wq保存退出  
 *注意：*经测试copy 命令只能拷贝与Dockerfile同级目录文件，所以在编写Dockerfile文件之前，先把jdk压缩包拷贝到Dockerfile同级目录  
-![整个过程](images/docker/windows/installjdk/过程.png "安装过程")
-
-4.启动容器并测试  
+4. 创建镜像  
+	`docker build [image name] .` #根据Dockerfile配置，生成镜像  
+![整个过程](images/docker/windows/installjdk/过程.png "安装过程")  
+5. 启动容器并测试  
 	`docker run -i -t --name hello hello-java`  
 	`java -version`
 ![测试容器](images/docker/windows/installjdk/测试容器.png "测试容器")  
@@ -62,8 +63,8 @@ ESC+:wq保存退出
 	`sudo apt-get install lxc-docker`  
     最后确认是否安装成功：docker version  
 ![Docker版本](images/docker/ubuntu/install/Docker版本.png "Docker版本")  
-	- 免sudo操作Docker
-		每次使用Docker，都要在命令前加sudo（表示获取root权限执行），特别不方便，为此，我们将当前用户加入到docker group中即可。
+	- 免sudo操作Docker  
+		每次使用Docker，都要在命令前加sudo（表示获取root权限执行），特别不方便，为此，我们将当前用户加入到docker group中即可  
         `sudo groupadd docker` #创建docker group  
         `sudo gpasswd -a impler docker` #将当前用户加入到docker group  
         `sudo service docker restart` #重启docker服务
