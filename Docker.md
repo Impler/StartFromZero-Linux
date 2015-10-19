@@ -43,13 +43,6 @@ ESC+:wq保存退出
 	`java -version`
 ![测试容器](images/docker/windows/installjdk/测试容器.png "测试容器")  
 
-###在容器与主机之间传输文件
-####从主机拷贝文件到容器中
-1. 使用命令 sudo cp [host file path] /var/lib/docker/aufs/mnt/[full container id]/[target file path]  
-	`sudo cp /share/apache-tomcat-7.0.64.tar.gz /var/lib/docker/aufs/mnt/eaf8779...c8a7ee/opt/tomcat/tomcat.tar.gz`  
-####从容器拷贝文件到容器中
-1. 使用命令 sudo cp [full container id]:/[file path in container] /[host path]  
-	`sudo cp eaf8779...c8a7ee:/opt/tomcat/tomcat.tar.gz /opt/tomcat/`
 ###在Ubuntu中使用docker
 ####安装
 当前系统版本号为Ubuntu 14.04  
@@ -70,7 +63,13 @@ ESC+:wq保存退出
         `sudo gpasswd -a impler docker` #将当前用户加入到docker group  
         `sudo service docker restart` #重启docker服务
 
-
+###在容器与主机之间传输文件
+####从主机拷贝文件到容器中
+1. 使用命令 sudo cp [host file path] /var/lib/docker/aufs/mnt/[full container id]/[target file path]  
+	`sudo cp /share/apache-tomcat-7.0.64.tar.gz /var/lib/docker/aufs/mnt/eaf8779...c8a7ee/opt/tomcat/tomcat.tar.gz`  
+####从容器拷贝文件到容器中
+1. 使用命令 sudo cp [full container id]:/[file path in container] /[host path]  
+	`sudo cp eaf8779...c8a7ee:/opt/tomcat/tomcat.tar.gz /opt/tomcat/`  
 
 ##Docker常用命令
 
