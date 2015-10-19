@@ -43,8 +43,6 @@ ESC+:wq保存退出
 	`java -version`
 ![测试容器](images/docker/windows/installjdk/测试容器.png "测试容器")  
 
-####在现有容器中安装tomcat
-
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
 1. 使用命令 sudo cp [host file path] /var/lib/docker/aufs/mnt/[full container id]/[target file path]  
