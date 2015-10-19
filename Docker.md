@@ -10,16 +10,16 @@
 - 对数据卷的更新，不会影响镜像  
 - 卷会一直存在，直到没有容器使用  
 数据卷的使用，类似于 Linux 下对目录或文件进行 mount  
-####创建数据卷
+####创建数据卷  
 在创建容器时，通过-v参数来创建一个数据卷并挂载到容器中  
 将/share目录作为数据卷挂载到容器中：
 	`docker run -i -t  --name tutorial -v /share learn/tutorial `  
 我们可以通过`docker inspect` 命令查看数据卷在主机中的位置：  
-![创建数据卷](images/docker/datavolumes/创建数据卷.png "创建数据卷") 
+![创建数据卷](images/docker/datavolumes/创建数据卷.png "创建数据卷")  
 你将看到形如下图的数据卷在主机中的位置：  
-![查看数据卷](images/docker/datavolumes/查看数据卷.png "查看数据卷")
+![查看数据卷](images/docker/datavolumes/查看数据卷.png "查看数据卷")  
 这样我们就可以“方便的”在这么深的文件目录中操作传输文件
-####挂载主机目录作为数据卷
+####挂载主机目录作为数据卷  
 我们可以指定主机上的目录作为数据卷而避免上述方法的繁琐。同样的，在创建容器时，通过`-v [host file path] : [container file path]`参数来创建数据卷  
 ![挂载主机目录作为数据卷](images/docker/datavolumes/挂载主机目录作为数据卷.png "挂载主机目录作为数据卷")  
 
