@@ -25,8 +25,8 @@
 ![挂载主机目录作为数据卷](images/docker/datavolumes/挂载主机目录作为数据卷.png "挂载主机目录作为数据卷")  
 
 ##Docker实战
-###在windows中使用Docker
-####安装
+###安装
+####在windows中使用Docker
 1. 到[https://www.docker.com/toolbox](https://www.docker.com/toolbox)下载Docker Toolbox（支持Mac OS X 10.8+ 和 Windows(64bit) 7+）软件并安装，安装过程中记得勾选安装VirtualBox虚拟机，将会自动在虚拟机中安装CentOS系统。  
 2. 通过Docker Quickstart Terminal启动程序，第一次启动较慢，因为要拉起虚拟机启动CentOS系统。  CentOS中已经安装好了docker，我们可以通过命令查看:  
 	`docker version`  
@@ -41,6 +41,24 @@
 	`cd /share`  
 	`ll`  
 ![测试共享目录](images/docker/windows/install/测试共享目录.png "测试共享目录")  
+####在Ubuntu中使用docker
+当前系统版本号为Ubuntu 14.04  
+有两种Docker方式：
+- 通过系统自带安装包
+	Ubuntu系统中自带Docker包，但通过此种方式安装的Docker版本较低，所以不推荐，这里不再累述
+- 通过Docker源安装
+	依次输入以下命令：  
+    `sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9`  
+    `sudo bash -c "echo deb https://get.docker.io/ubuntu docker main >   /etc/apt/sources.list.d/docker.list"`  
+	`sudo apt-get update`  
+	`sudo apt-get install lxc-docker`  
+    最后确认是否安装成功：docker version  
+![Docker版本](images/docker/ubuntu/install/Docker版本.png "Docker版本")  
+	- 免sudo操作Docker  
+		每次使用Docker，都要在命令前加sudo（表示获取root权限执行），特别不方便，为此，我们将当前用户加入到docker group中即可  
+        `sudo groupadd docker` #创建docker group  
+        `sudo gpasswd -a impler docker` #将当前用户加入到docker group  
+        `sudo service docker restart` #重启docker服务  
 
 ####安装JDK
 1. 使用Dockerfile文件创建镜像
@@ -67,30 +85,11 @@ ESC+:wq保存退出
 	`java -version`
 ![测试容器](images/docker/windows/installjdk/测试容器.png "测试容器")  
 
-###在Ubuntu中使用docker
-####安装
-当前系统版本号为Ubuntu 14.04  
-有两种Docker方式：
-- 通过系统自带安装包
-	Ubuntu系统中自带Docker包，但通过此种方式安装的Docker版本较低，所以不推荐，这里不再累述
-- 通过Docker源安装
-	依次输入以下命令：  
-    `sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9`  
-    `sudo bash -c "echo deb https://get.docker.io/ubuntu docker main >   /etc/apt/sources.list.d/docker.list"`  
-	`sudo apt-get update`  
-	`sudo apt-get install lxc-docker`  
-    最后确认是否安装成功：docker version  
-![Docker版本](images/docker/ubuntu/install/Docker版本.png "Docker版本")  
-	- 免sudo操作Docker  
-		每次使用Docker，都要在命令前加sudo（表示获取root权限执行），特别不方便，为此，我们将当前用户加入到docker group中即可  
-        `sudo groupadd docker` #创建docker group  
-        `sudo gpasswd -a impler docker` #将当前用户加入到docker group  
-        `sudo service docker restart` #重启docker服务
 
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
 1. 使用命令 sudo cp [host file path] /var/lib/docker/aufs/mnt/[full container id]/[target file path]  
-	`sudo cp /share/apache-tomcat-7.0.64.tar.gz /var/lib/docker/aufs/mnt/eaf8779...c8a7ee/opt/tomcat/tomcat.tar.gz`   
+	`sudo cp /share/apache-tomcat-7.0.64.tar.gz /var/lib/docker/aufs/mnt/eaf8779...c8a7ee/opt/tomcat/tomcat.tar.gz`  
 ####从容器拷贝文件到容器中
 1. 使用命令 sudo cp [full container id]:/[file path in container] /[host path]  
 	`sudo cp eaf8779...c8a7ee:/opt/tomcat/tomcat.tar.gz /opt/tomcat/`  
