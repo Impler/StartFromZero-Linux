@@ -27,7 +27,7 @@
 我们可以指定主机上的目录作为数据卷而避免上述方法的繁琐。同样的，在创建容器时，通过`-v [host file path] : [container file path]`参数来创建数据卷  
 ![挂载主机目录作为数据卷](images/docker/datavolumes/挂载主机目录作为数据卷.png "挂载主机目录作为数据卷")  
 
-- Dockerfile VOLUME
+- Dockerfile VOLUME  
 在Dockerfile文件中，使用VOLUME [container path]的形式创建数据卷，效果同上述第一种方式。
 ##Docker实战
 ###安装
