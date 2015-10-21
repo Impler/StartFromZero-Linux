@@ -1,4 +1,16 @@
 #Docker
+##容器
+###扩容
+Docker默认为容器分配10G的存储空间，显然这不能满足日常的需求。有两种办法解决这一问题：
+1. 静态扩容  
+2. 动态扩容
+####静态扩容
+修改docker配置文件，在Ubuntu系统中的配置文件为/etc/default/dockerfile。  
+![配置文件](images/docker/container/配置文件.png "Docker配置文件")  
+
+*参考：*  
+静态扩容：[https://sasikanthkotti.wordpress.com/category/docker/](https://sasikanthkotti.wordpress.com/category/docker/)  
+动态扩容：[http://www.linuxeye.com/Linux/2114.html](http://www.linuxeye.com/Linux/2114.html)  
 ##Docker数据管理
 在容器中管理数据主要有两种方式：  
 1. 数据卷  
