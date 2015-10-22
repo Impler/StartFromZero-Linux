@@ -40,7 +40,22 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 ![挂载主机目录作为数据卷](images/docker/datavolumes/挂载主机目录作为数据卷.png "挂载主机目录作为数据卷")  
 
 - Dockerfile VOLUME  
-在Dockerfile文件中，使用VOLUME [container path]的形式创建数据卷，效果同上述第一种方式。
+在Dockerfile文件中，使用VOLUME [container path]的形式创建数据卷，效果同上述第一种方式。  
+##Dockerfile
+###Dockerfile实例
+1. 支持SSH服务容器  
+	`FROM ubuntu:14.04`  
+	`MAINTAINER Sven Dowideit <SvenDowideit@docker.com>`  
+	`RUN apt-get update && apt-get install -y openssh-server`  
+	`RUN mkdir /var/run/sshd`  
+	`RUN echo 'root:screencast' | chpasswd`  
+	`RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config`  
+	`# SSH login fix. Otherwise user is kicked off after login`  
+	`RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd`  
+	`ENV NOTVISIBLE "in users profile"`  
+	`RUN echo "export VISIBLE=now" >> /etc/profile`  
+	`EXPOSE 22`  
+	`CMD ["/usr/sbin/sshd", "-D"]`  
 ##Docker实战
 ###安装
 ####Windows(仅作学习练习使用)
