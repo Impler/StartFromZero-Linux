@@ -111,7 +111,7 @@ ESC+:wq保存退出
 *注意：*经测试copy 命令只能拷贝与Dockerfile同级目录文件，所以在编写Dockerfile文件之前，先把jdk压缩包拷贝到Dockerfile同级目录  
 4. 创建镜像  
 	`docker build [option] [image name] .` #根据Dockerfile配置，生成镜像  
-![整个过程](images/docker/windows/installjdk/过程.png "安装过程")  
+![整个过程]()  
 5. 启动容器并测试  
 	`docker run -i -t --name hello hello-java`  
 	`java -version`
@@ -138,4 +138,13 @@ ESC+:wq保存退出
 - docker ps -l: 显示容器信息列表
 - docker inspect [容器ID]: 显示具体容器信息，容器ID可用其前几（3, 4）个标识符表示
 - docker commit [容器ID] [新的镜像名称]: 保存对容器的修改，生成新的镜像，容器ID可用其前几（3, 4）个标识符代替。docker commit 0fea learn/ping
-- docker push [镜像名称]: 发布镜像到官方仓库
+- docker push [镜像名称]: 发布镜像到官方仓库  
+
+##常见问题解决 
+1. /sbin/mount.vboxsf: mounting failed with the error: No such device  
+[mount no suce device](images/docker/problems/1.png "mount no suce device")  
+解决办法：  
+可能是没有载入内核模块 vboxfs ，先查看下：  
+`lsmod | grep vboxsf`  
+如果没有结果返回，说明 vboxsf没有载入，执行  
+`sudo modprobe vboxsf`  
