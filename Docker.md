@@ -56,9 +56,10 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 	`RUN echo "export VISIBLE=now" >> /etc/profile`  
 	`EXPOSE 22`  
 	`CMD ["/usr/sbin/sshd", "-D"]`  
-##Docker实战
-###安装
-####Windows(仅作学习练习使用)
+
+##Docker实战  
+###安装  
+####Windows(仅作学习练习使用)  
 1. 到[https://www.docker.com/toolbox](https://www.docker.com/toolbox)下载Docker Toolbox（支持Mac OS X 10.8+ 和 Windows(64bit) 7+）软件并安装，安装过程中记得勾选安装VirtualBox虚拟机，将会自动在虚拟机中安装CentOS系统。  
 2. 通过Docker Quickstart Terminal启动程序，第一次启动较慢，因为要拉起虚拟机启动CentOS系统。  CentOS中已经安装好了docker，我们可以通过命令查看:  
 	`docker version`  
