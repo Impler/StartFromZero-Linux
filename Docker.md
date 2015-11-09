@@ -43,7 +43,7 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 在Dockerfile文件中，使用VOLUME [container path]的形式创建数据卷，效果同上述第一种方式。  
 ##Dockerfile
 ###Dockerfile实例
-1. 支持SSH服务容器  
+1. 支持SSH服务容器(ubuntu)  
 	`FROM ubuntu:14.04`  
 	`MAINTAINER Sven Dowideit <SvenDowideit@docker.com>`  
 	`RUN apt-get update && apt-get install -y openssh-server`  
@@ -56,6 +56,18 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 	`RUN echo "export VISIBLE=now" >> /etc/profile`  
 	`EXPOSE 22`  
 	`CMD ["/usr/sbin/sshd", "-D"]`  
+2. 支持SSH服务容器(CentOS)  
+	`FROM centos`  
+	`RUN yum install -y openssh openssh-server openssh-clients httpd`  
+	`RUN mkdir /var/run/sshd`  
+	`RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key`  
+	`RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key`  
+	`RUN ssh-keygen -A`  
+	`RUN /bin/echo 'root:root' |chpasswd`  
+	`RUN /bin/sed -i 's/.*session.*required.*pam_loginuid.so.*/session optional pam_loginuid.so/g' /etc/pam.d/sshd`  
+	`RUN /bin/echo -e "LANG=\"en_US.UTF-8\"" > /etc/default/local`  
+	`EXPOSE      22`  
+	`CMD /usr/sbin/sshd -D`  
 
 ##Docker实战  
 ###安装  
