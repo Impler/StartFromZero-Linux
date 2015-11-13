@@ -204,28 +204,48 @@ ESC+:wq保存退出
 	- db_install.rsp	//静默安装Oracle  
 	- netca.rsp			//静默安装网络监听，一般使用默认配置即可，不用修改  
 	- dbca.rsp			//静默建库  
-	db_install.rsp一般修改如下内容，详情请阅读文件注释:  
-	`oracle.install.option=INSTALL_DB_SWONLY`  
-	`ORACLE_HOSTNAME=7fd0e0821bcc`						//容器内主机名称，例如root@7fd0e0821bcc  
-	`UNIX_GROUP_NAME=oinstall`  
-	`INVENTORY_LOCATION=/u01/app/oracle/oraInventory`  
-	`SELECTED_LANGUAGES=en,zh_CN`  
-	`ORACLE_HOME=/u01/app/oracle/product/11.2.0.1/db_1`  
-	`ORACLE_BASE=/app/oracle`  
-	`oracle.install.db.InstallEdition=EE`  
-	`oracle.install.db.DBA_GROUP=dba`  
-	`oracle.install.db.OPER_GROUP=oinstall`  
-	`oracle.install.db.config.starterdb.type=GENERAL_PURPOSE`  
-	`oracle.install.db.config.starterdb.globalDBName=oracle11g`  
-	`oracle.install.db.config.starterdb.SID=orcl`  
-	`oracle.install.db.config.starterdb.characterSet=AL32UTF8`  
-	`oracle.install.db.config.starterdb.password.ALL=QWEasd123`  
-	`DECLINE_SECURITY_UPDATES=true`  
-	---  
-	netca.rsp一般不需要修改  
-	---  
-	dbca.rsp一般修改如下内容，详情请阅读文件注释:  
-	
+		- db_install.rsp一般修改如下内容，详情请阅读文件注释:  
+		`oracle.install.option=INSTALL_DB_SWONLY`  
+		`ORACLE_HOSTNAME=7fd0e0821bcc`						//容器内主机名称，例如root@7fd0e0821bcc  
+		`UNIX_GROUP_NAME=oinstall`  
+		`INVENTORY_LOCATION=/u01/app/oracle/oraInventory`  
+		`SELECTED_LANGUAGES=en,zh_CN`  
+		`ORACLE_HOME=/u01/app/oracle/product/11.2.0.1/db_1`  
+		`ORACLE_BASE=/app/oracle`  
+		`oracle.install.db.InstallEdition=EE`  
+		`oracle.install.db.DBA_GROUP=dba`  
+		`oracle.install.db.OPER_GROUP=oinstall`  
+		`oracle.install.db.config.starterdb.type=GENERAL_PURPOSE`  
+		`oracle.install.db.config.starterdb.globalDBName=oracle11g`  
+		`oracle.install.db.config.starterdb.SID=orcl`  
+		`oracle.install.db.config.starterdb.characterSet=AL32UTF8`  
+		`oracle.install.db.config.starterdb.password.ALL=QWEasd123`  
+		`DECLINE_SECURITY_UPDATES=true`   
+		- netca.rsp一般不需要修改  
+		- dbca.rsp一般修改如下内容，详情请阅读文件注释:  
+		`RESPONSEFILE_VERSION = "11.2.0"`  
+		`OPERATION_TYPE = "createDatabase"`  
+		`GDBNAME="oracle11g"`  
+		`SID="orcl"`  
+		`TEMPLATENAME="General_Purpose.dbc"`  
+		`SYSPASSWORD="QWEasd123"`  
+		`SYSTEMPASSWORD="QWEasd123"`  
+		`DBSNMPPASSWORD = "QWEasd123"`
+		`HOSTUSERNAME = 7fd0e0821bcc`
+		`DATAFILEDESTINATION=/u01/app/oracle/oradata`  
+		`RECOVERYAREADESTINATION=/u01/app/oracle/oradata_back`  
+		`CHARACTERSET="UTF8"`  
+		`TOTALMEMORY = "800"`  
+
+7. 静默安装
+	进入oracle安装文件主目录[*/database]，执行命令：
+	`./runInstaller -silent -ignorePrereq -responseFile [your file path]/db_install.rsp`  
+	- -silent：静默方式安装  
+	- -ignorePrereq：忽略前期可行性检查  
+	- -responseFile：指定响应文件目录  
+	接下来将是一个漫长的等待，直到出现如下成功提示：  
+	![安装成功](images/docker/centos/install/oracle/安装成功.png "安装成功")  
+
 
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
