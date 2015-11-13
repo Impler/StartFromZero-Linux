@@ -144,52 +144,84 @@ ESC+:wq保存退出
 2. 安装依赖  
 	`yum install binutils compat-libstdc++-33 elfutils-libelf elfutils-libelf-devel elfutils-libelf-devel-static gcc gcc-c++ glibc glibc-common glibc-devel glibc-headers kernel-headers ksh libaio libaio-devel libgcc libgomp libstdc++ libstdc++-devel make sysstat unixODBC unixODBC-devel`  
 3. 创建Oracle用户和组  
-
-- 首先为root用户设置密码  
-	`passwd root`  
-如果passwd命令还未安装，先安装passwd命令：`yum install passwd`
-- 创建oracle用户和组  
-	`groupadd oinstall`  
-	`groupadd dba`  
-	`useradd -g oinstall -G dba -d /home/oracle -s /bin/bash oracle`  
-为oracle用户设置密码  
-	`passwd oracle`  
-- 创建oracle安装目录，并赋予oracle用户权限  
-	`mkdir /u01`  
-	`chown -R oracle:oinstall /u01`  
-![创建用户和组](images/docker/centos/install/oracle/创建用户和组.png "创建用户和组")  
+	- 首先为root用户设置密码  
+		`passwd root`  
+	如果passwd命令还未安装，先安装passwd命令：`yum install passwd`
+	- 创建oracle用户和组  
+		`groupadd oinstall`  
+		`groupadd dba`  
+		`useradd -g oinstall -G dba -d /home/oracle -s /bin/bash oracle`  
+	为oracle用户设置密码  
+		`passwd oracle`  
+	- 创建oracle安装目录，并赋予oracle用户权限  
+		`mkdir /u01`  
+		`chown -R oracle:oinstall /u01`  
+	![创建用户和组](images/docker/centos/install/oracle/创建用户和组.png "创建用户和组")  
 
 4. 修改内核参数
+	- 修改/etc/sysctl.conf 文件  
+		`vi /etc/sysctl.conf`  
+		修改以下参数：  
+			- kernel.shmall = 2097152				//系统一次可以使用的共享内存总量  
+			- kernel.shmmax = 2147483648			//共享内存段的最大尺寸  
+			- kernel.shmmni = 4096					//设置系统范围内共享内存段的最大数量  
+			- kernel.sem = 250 32000 100 128		//设置的信号量  
+			- fs.file-max = 65536    						//文件句柄的最大数量  
+			- fs.aio-max-nr = 1048576    					//同时可以拥有的的异步IO请求数目  
+			- net.ipv4.ip_local_port_range = 1024 65000		//应用程序可使用的Ipv4端口范围  
+		脚本如下：  
+		`fs.aio-max-nr = 1048576`  
+		`fs.file-max = 6815744`  
+		`kernel.shmall = 2097152`  
+		`kernel.shmmax = 536870912`  
+		`kernel.shmmni = 4096`  
+		`kernel.sem = 250 32000 100 128`  
+		`net.ipv4.ip_local_port_range = 9000 65500`  
+		运行`sysctl -p`，使设置立即生效
+	- 为oracle用户设置Shell限制  
+		`vi /etc/security/limits.conf`，添加如下行：  
+		`oracle           soft    nproc   2047`  
+		`oracle           hard    nproc   16384`  
+		`oracle           soft    nofile  1024`  
+		`oracle           hard    nofile  65536`  
+		`vi /etc/pam.d/login`，添加如下行：  
+		` session    required     pam_limits.so`  
+	![修改内核参数](images/docker/centos/install/oracle/修改内核参数.png "修改内核参数")  
 
-- 修改/etc/sysctl.conf 文件  
-	`vi /etc/sysctl.conf`  
-	修改以下参数：  
-		- kernel.shmall = 2097152				//系统一次可以使用的共享内存总量  
-		- kernel.shmmax = 2147483648			//共享内存段的最大尺寸  
-		- kernel.shmmni = 4096					//设置系统范围内共享内存段的最大数量  
-		- kernel.sem = 250 32000 100 128		//设置的信号量  
-		- fs.file-max = 65536    						//文件句柄的最大数量  
-		- fs.aio-max-nr = 1048576    					//同时可以拥有的的异步IO请求数目  
-		- net.ipv4.ip_local_port_range = 1024 65000		//应用程序可使用的Ipv4端口范围  
-	脚本如下：  
-	`fs.aio-max-nr = 1048576`  
-	`fs.file-max = 6815744`  
-	`kernel.shmall = 2097152`  
-	`kernel.shmmax = 536870912`  
-	`kernel.shmmni = 4096`  
-	`kernel.sem = 250 32000 100 128`  
-	`net.ipv4.ip_local_port_range = 9000 65500`  
-	运行`sysctl -p`，使设置立即生效
-- 为oracle用户设置Shell限制  
-	`vi /etc/security/limits.conf`，添加如下行：  
-	`oracle           soft    nproc   2047`  
-	`oracle           hard    nproc   16384`  
-	`oracle           soft    nofile  1024`  
-	`oracle           hard    nofile  65536`  
-	`vi /etc/pam.d/login`，添加如下行：  
-	` session    required     pam_limits.so`  
-![修改内核参数](images/docker/centos/install/oracle/修改内核参数.png "修改内核参数")  
-
+5. 设置环境变量
+	`vi /etc/profile`，追加以下内容：  
+	`export ORACLE_BASE=/u01/app/oracle`  
+	`export ORACLE_HOME=/u01/app/oracle/product/11.2.0.1/db_1`  
+	`export PATH=$ORACLE_HOME/bin:$PATH`  
+	`export LD_LIBRARY_PATH=/usr/lib:/lib:$LD_LIBRARY_PATH:$ORACLE_HOME/lib`  
+	`export ORACLE_SID=orcl`  
+	运行`source /etc/profile`，使其立即生效  
+	![环境变量](images/docker/centos/install/oracle/环境变量.png "环境变量")  
+	*注意安装路径与响应文件一致*
+	
+6. 修改响应文件
+	在主机上(容器外)解压Oracle安装包到主机上的share目录，linux.x64_11gR2_database_1of2.zip和linux.x64_11gR2_database_2of2.zip，找到响应文件所在目录[*/database/response/]，有以下三个响应文件需要配置：  
+	- db_install.rsp	//静默安装Oracle  
+	- netca.rsp			//静默安装网络监听，一般使用默认配置即可，不用修改  
+	- dbca.rsp			//静默建库  
+	db_install.rsp一般修改如下内容，详情请阅读文件注释: 
+	`oracle.install.option=INSTALL_DB_SWONLY`  
+	`ORACLE_HOSTNAME=7fd0e0821bcc`						//容器内主机名称，例如root@7fd0e0821bcc  
+	`UNIX_GROUP_NAME=oinstall`  
+	`INVENTORY_LOCATION=/u01/app/oracle/oraInventory`  
+	`SELECTED_LANGUAGES=en,zh_CN`  
+	`ORACLE_HOME=/u01/app/oracle/product/11.2.0.1/db_1`  
+	`ORACLE_BASE=/app/oracle`  
+	`oracle.install.db.InstallEdition=EE`  
+	`oracle.install.db.DBA_GROUP=dba`  
+	`oracle.install.db.OPER_GROUP=oinstall`  
+	`oracle.install.db.config.starterdb.type=GENERAL_PURPOSE`  
+	`oracle.install.db.config.starterdb.globalDBName=oracle11g`  
+	`oracle.install.db.config.starterdb.SID=orcl`  
+	`oracle.install.db.config.starterdb.characterSet=AL32UTF8`  
+	`oracle.install.db.config.starterdb.password.ALL=QWEasd123`  
+	`DECLINE_SECURITY_UPDATES=true`  
+	
 
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
