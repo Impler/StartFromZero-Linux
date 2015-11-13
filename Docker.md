@@ -1,7 +1,7 @@
 #Docker
 ##容器
 ###扩容
-Docker默认为容器分配10G的存储空间，显然这不能满足日常的需求。有两种办法解决这一问题：
+Docker默认为容器分配10G的存储空间，显然这不能满足日常的需求。有两种办法解决这一问题：  
 1. 静态扩容  
 2. 动态扩容
 ####静态扩容
@@ -125,7 +125,7 @@ ESC+:wq保存退出
 *注意：*经测试copy 命令只能拷贝与Dockerfile同级目录文件，所以在编写Dockerfile文件之前，先把jdk压缩包拷贝到Dockerfile同级目录  
 4. 创建镜像  
 	`docker build [option] [image name] .` #根据Dockerfile配置，生成镜像  
-![整个过程]()  
+![整个过程](images/docker/windows/installjdk/过程.png "过程")  
 5. 启动容器并测试  
 	`docker run -i -t --name hello hello-java`  
 	`java -version`
@@ -204,7 +204,7 @@ ESC+:wq保存退出
 	- db_install.rsp	//静默安装Oracle  
 	- netca.rsp			//静默安装网络监听，一般使用默认配置即可，不用修改  
 	- dbca.rsp			//静默建库  
-	db_install.rsp一般修改如下内容，详情请阅读文件注释: 
+	db_install.rsp一般修改如下内容，详情请阅读文件注释:  
 	`oracle.install.option=INSTALL_DB_SWONLY`  
 	`ORACLE_HOSTNAME=7fd0e0821bcc`						//容器内主机名称，例如root@7fd0e0821bcc  
 	`UNIX_GROUP_NAME=oinstall`  
@@ -221,6 +221,10 @@ ESC+:wq保存退出
 	`oracle.install.db.config.starterdb.characterSet=AL32UTF8`  
 	`oracle.install.db.config.starterdb.password.ALL=QWEasd123`  
 	`DECLINE_SECURITY_UPDATES=true`  
+	---  
+	netca.rsp一般不需要修改  
+	---  
+	dbca.rsp一般修改如下内容，详情请阅读文件注释:  
 	
 
 ###在容器与主机之间传输文件
