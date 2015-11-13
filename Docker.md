@@ -135,6 +135,7 @@ ESC+:wq保存退出
 - 操作系统：CentOS Linux release 7.1.1503 (Core)  
 - Oracle: linux.x64_11gR2  
 #####安装  
+
 1. 创建基础容器  
 基于本地CentOS镜像 创建基础镜像，并指定数据卷用于文件传输， 暴露1521端口用于远程访问  
 	`docker run -it -p 1521:1521 -v /share:/share --privileged centos`  
@@ -145,7 +146,7 @@ ESC+:wq保存退出
 - 首先为root用户设置密码  
 `passwd root`  
 如果passwd命令还未安装，先安装passwd命令：`yum install passwd`
-- 创建oracle用户和组
+- 创建oracle用户和组  
 `groupadd oinstall`  
 `groupadd dba`  
 `useradd -g oinstall -G dba -d /home/oracle -s /bin/bash oracle`  
