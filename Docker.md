@@ -141,6 +141,7 @@ ESC+:wq保存退出
 2. 安装依赖  
 	`yum install binutils compat-libstdc++-33 elfutils-libelf elfutils-libelf-devel elfutils-libelf-devel-static gcc gcc-c++ glibc glibc-common glibc-devel glibc-headers kernel-headers ksh libaio libaio-devel libgcc libgomp libstdc++ libstdc++-devel make sysstat unixODBC unixODBC-devel`  
 3. 创建Oracle用户和组  
+
 - 首先为root用户设置密码  
 `passwd root`  
 如果passwd命令还未安装，先安装passwd命令：`yum install passwd`
