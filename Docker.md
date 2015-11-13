@@ -134,6 +134,7 @@ ESC+:wq保存退出
 #####准备
 - 操作系统：CentOS Linux release 7.1.1503 (Core)  
 - Oracle: linux.x64_11gR2  
+
 #####安装  
 
 1. 创建基础容器  
