@@ -135,7 +135,8 @@ ESC+:wq保存退出
 - 操作系统：CentOS Linux release 7.1.1503 (Core)  
 - Oracle: linux.x64_11gR2  
 
-#####安装
+#####安装  
+
 1 创建基础容器  
 基于本地CentOS镜像 创建基础镜像，并指定数据卷用于文件传输， 暴露1521端口用于远程访问  
 `docker run -it -p 1521:1521 -v /share:/share --privileged centos`  
