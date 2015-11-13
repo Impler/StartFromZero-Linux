@@ -134,7 +134,7 @@ ESC+:wq保存退出
 #####准备
 - 操作系统：CentOS Linux release 7.1.1503 (Core)  
 - Oracle: linux.x64_11gR2  
-#####安装  
+#####安装
 1 创建基础容器  
 基于本地CentOS镜像 创建基础镜像，并指定数据卷用于文件传输， 暴露1521端口用于远程访问  
 `docker run -it -p 1521:1521 -v /share:/share --privileged centos`  
@@ -151,10 +151,6 @@ ESC+:wq保存退出
 为oracle用户设置密码  
 `passwd oracle`  
 ![创建用户和组](images/docker/centos/install/oracle/创建用户和组.png "创建用户和组")  
-
-
-
-
 
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
