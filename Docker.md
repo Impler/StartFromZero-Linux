@@ -156,6 +156,35 @@ ESC+:wq保存退出
 `passwd oracle`  
 ![创建用户和组](images/docker/centos/install/oracle/创建用户和组.png "创建用户和组")  
 
+#####修改内核参数
+1. 修改/etc/sysctl.conf 文件  
+	`vi /etc/sysctl.conf`  
+	修改以下参数：  
+		- kernel.shmall = 2097152				//系统一次可以使用的共享内存总量  
+		- kernel.shmmax = 2147483648			//共享内存段的最大尺寸  
+		- kernel.shmmni = 4096					//设置系统范围内共享内存段的最大数量  
+		- kernel.sem = 250 32000 100 128		//设置的信号量  
+		- fs.file-max = 65536    						//文件句柄的最大数量  
+		- fs.aio-max-nr = 1048576    					//同时可以拥有的的异步IO请求数目  
+		- net.ipv4.ip_local_port_range = 1024 65000		//应用程序可使用的Ipv4端口范围  
+	脚本如下：  
+	`fs.aio-max-nr = 1048576`  
+	`fs.file-max = 6815744`  
+	`kernel.shmall = 2097152`  
+	`kernel.shmmax = 536870912`  
+	`kernel.shmmni = 4096`  
+	`kernel.sem = 250 32000 100 128`  
+	`net.ipv4.ip_local_port_range = 9000 65500`  
+	运行`sysctl -p`，使设置立即生效
+2. 为oracle用户设置Shell限制  
+	`vi /etc/security/limits.conf`，添加如下行：  
+	`oracle           soft    nproc   2047`  
+	`oracle           hard    nproc   16384`  
+	`oracle           soft    nofile  1024`  
+	`oracle           hard    nofile  65536`  
+	`vi /etc/pam.d/login`，添加如下行：  
+	` session    required     pam_limits.so`  
+![修改内核参数](images/docker/centos/install/oracle/修改内核参数.png "修改内核参数")  
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
 1. 使用命令 sudo cp [host file path] /var/lib/docker/aufs/mnt/[full container id]/[target file path]  
