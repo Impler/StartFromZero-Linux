@@ -134,15 +134,13 @@ ESC+:wq保存退出
 #####准备
 - 操作系统：CentOS Linux release 7.1.1503 (Core)  
 - Oracle: linux.x64_11gR2  
-
 #####安装  
-
-1 创建基础容器  
+1. 创建基础容器  
 基于本地CentOS镜像 创建基础镜像，并指定数据卷用于文件传输， 暴露1521端口用于远程访问  
-`docker run -it -p 1521:1521 -v /share:/share --privileged centos`  
-2 安装依赖  
-`yum install binutils compat-libstdc++-33 elfutils-libelf elfutils-libelf-devel elfutils-libelf-devel-static gcc gcc-c++ glibc glibc-common glibc-devel glibc-headers kernel-headers ksh libaio libaio-devel libgcc libgomp libstdc++ libstdc++-devel make sysstat unixODBC unixODBC-devel`  
-3 创建Oracle用户和组  
+	`docker run -it -p 1521:1521 -v /share:/share --privileged centos`  
+2. 安装依赖  
+	`yum install binutils compat-libstdc++-33 elfutils-libelf elfutils-libelf-devel elfutils-libelf-devel-static gcc gcc-c++ glibc glibc-common glibc-devel glibc-headers kernel-headers ksh libaio libaio-devel libgcc libgomp libstdc++ libstdc++-devel make sysstat unixODBC unixODBC-devel`  
+3. 创建Oracle用户和组  
 - 首先为root用户设置密码  
 `passwd root`  
 如果passwd命令还未安装，先安装passwd命令：`yum install passwd`
