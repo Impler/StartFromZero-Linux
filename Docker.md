@@ -238,7 +238,7 @@ ESC+:wq保存退出
 		`TOTALMEMORY = "800"`  
 
 7. 静默安装
-	进入oracle安装文件主目录[*/database]，执行命令：
+	进入oracle安装文件主目录[*/database]，执行命令：  
 	`./runInstaller -silent -ignorePrereq -responseFile [your file path]/db_install.rsp`  
 	- -silent：静默方式安装  
 	- -ignorePrereq：忽略前期可行性检查  
