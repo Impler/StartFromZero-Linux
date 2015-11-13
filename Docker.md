@@ -130,6 +130,31 @@ ESC+:wq保存退出
 	`java -version`
 ![测试容器](images/docker/windows/installjdk/测试容器.png "测试容器")  
 
+####静默安装Oracle11g  
+#####准备
+- 操作系统：CentOS Linux release 7.1.1503 (Core)  
+- Oracle: linux.x64_11gR2  
+#####安装  
+1 创建基础容器  
+基于本地CentOS镜像 创建基础镜像，并指定数据卷用于文件传输， 暴露1521端口用于远程访问  
+`docker run -it -p 1521:1521 -v /share:/share --privileged centos`  
+2 安装依赖  
+`yum install binutils compat-libstdc++-33 elfutils-libelf elfutils-libelf-devel elfutils-libelf-devel-static gcc gcc-c++ glibc glibc-common glibc-devel glibc-headers kernel-headers ksh libaio libaio-devel libgcc libgomp libstdc++ libstdc++-devel make sysstat unixODBC unixODBC-devel`  
+3 创建Oracle用户和组  
+- 首先为root用户设置密码  
+`passwd root`  
+如果passwd命令还未安装，先安装passwd命令：`yum install passwd`
+- 创建oracle用户和组
+`groupadd oinstall`  
+`groupadd dba`  
+`useradd -g oinstall -G dba -d /home/oracle -s /bin/bash oracle`  
+为oracle用户设置密码  
+`passwd oracle`  
+![创建用户和组](images/docker/centos/install/oracle/创建用户和组.png "创建用户和组")  
+
+
+
+
 
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
