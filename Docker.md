@@ -146,18 +146,21 @@ ESC+:wq保存退出
 3. 创建Oracle用户和组  
 
 - 首先为root用户设置密码  
-`passwd root`  
+	`passwd root`  
 如果passwd命令还未安装，先安装passwd命令：`yum install passwd`
 - 创建oracle用户和组  
-`groupadd oinstall`  
-`groupadd dba`  
-`useradd -g oinstall -G dba -d /home/oracle -s /bin/bash oracle`  
+	`groupadd oinstall`  
+	`groupadd dba`  
+	`useradd -g oinstall -G dba -d /home/oracle -s /bin/bash oracle`  
 为oracle用户设置密码  
-`passwd oracle`  
+	`passwd oracle`  
+- 创建oracle安装目录，并赋予oracle用户权限  
+	`mkdir /u01`  
+	`chown -R oracle:oinstall /u01`  
 ![创建用户和组](images/docker/centos/install/oracle/创建用户和组.png "创建用户和组")  
 
-#####修改内核参数
-1. 修改/etc/sysctl.conf 文件  
+4. 修改内核参数
+- 修改/etc/sysctl.conf 文件  
 	`vi /etc/sysctl.conf`  
 	修改以下参数：  
 		- kernel.shmall = 2097152				//系统一次可以使用的共享内存总量  
@@ -176,7 +179,7 @@ ESC+:wq保存退出
 	`kernel.sem = 250 32000 100 128`  
 	`net.ipv4.ip_local_port_range = 9000 65500`  
 	运行`sysctl -p`，使设置立即生效
-2. 为oracle用户设置Shell限制  
+- 为oracle用户设置Shell限制  
 	`vi /etc/security/limits.conf`，添加如下行：  
 	`oracle           soft    nproc   2047`  
 	`oracle           hard    nproc   16384`  
@@ -185,6 +188,8 @@ ESC+:wq保存退出
 	`vi /etc/pam.d/login`，添加如下行：  
 	` session    required     pam_limits.so`  
 ![修改内核参数](images/docker/centos/install/oracle/修改内核参数.png "修改内核参数")  
+
+
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
 1. 使用命令 sudo cp [host file path] /var/lib/docker/aufs/mnt/[full container id]/[target file path]  
