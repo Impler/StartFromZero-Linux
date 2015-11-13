@@ -160,6 +160,7 @@ ESC+:wq保存退出
 ![创建用户和组](images/docker/centos/install/oracle/创建用户和组.png "创建用户和组")  
 
 4. 修改内核参数
+
 - 修改/etc/sysctl.conf 文件  
 	`vi /etc/sysctl.conf`  
 	修改以下参数：  
