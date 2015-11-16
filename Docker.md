@@ -200,7 +200,7 @@ ESC+:wq保存退出
 	*注意安装路径与响应文件一致*
 	
 6. 修改响应文件  
-	在主机上(容器外)解压Oracle安装包到主机上的share目录，linux.x64_11gR2_database_1of2.zip和linux.x64_11gR2_database_2of2.zip，找到响应文件所在目录[*/database/response/]，有以下三个响应文件需要配置：  
+	在主机上(容器外)解压Oracle安装包到主机上的share目录，linux.x64\_11gR2\_database\_1of2.zip和linux.x64\_11gR2\_database\_2of2.zip，找到响应文件所在目录[*/database/response/]，有以下三个响应文件需要配置：  
 	- db_install.rsp	//静默安装Oracle  
 	- netca.rsp			//静默安装网络监听，一般使用默认配置即可，不用修改  
 	- dbca.rsp			//静默建库  
@@ -259,6 +259,32 @@ ESC+:wq保存退出
 	`$ORACLE_HOME/bin/lsnrctl status` 查看监听状态  
 	![监听状态](images/docker/centos/install/oracle/监听状态.png "监听状态")  
 	修改$ORACLE_HOME/bin/dbstart文件，将`ORACLE_HOME_LISTNER=$1`改为`ORACLE_HOME_LISTNER=$ORACLE_HOME`，否则网络监听器可能无法自动启动  
+
+10. 安装数据库实例  
+	静默安装数据库实例，依赖[6]中的修改的dbca.rsp文件：  
+	`$ORACLE_HOME/bin/dbca -silent -responseFIle [your file path]/dbca.rsp`  
+	![安装数据库实例](images/docker/centos/install/oracle/安装数据库实例.png "安装数据库实例")  
+	修改/etc/oratab文件，将[ORACLE SID]:[ORACLE HOME]:N修改为Y，使数据库实例能够自动启动：  
+	![修改oratab](images/docker/centos/install/oracle/修改oratab.png "修改oratab")  
+	
+11. 启动oracle  
+	首先检查监听是否启动：  
+	`$ORACLE_HOME/bin/lsnrctl status`  
+	如果监听没有启动，先启动监听:  
+	`$ORACLE_HOME/bin/lsnrctl start`  
+	![启动oracle](images/docker/centos/install/oracle/启动oracle1.png "启动oracle")  
+	使用sqlplus连接oracle，并启动oracle实例：  
+	`sqlplus sys as sysdba`  
+	`startup`  
+	![启动oracle](images/docker/centos/install/oracle/启动oracle2.png "启动oracle")  
+	也可使用`dbstart`启动  
+
+#####提交备份容器
+退出oracle容器，并将该容器提交为新的镜像，导出备份，以便日后使用  
+	`docker commit [container id] [image name]`  
+	`docker save [image name/id] > [backup path]`  
+![提交更新容器](images/docker/centos/install/oracle/提交更新容器.png "提交更新容器")  
+	
 
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
