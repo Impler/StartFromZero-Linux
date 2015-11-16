@@ -158,7 +158,7 @@ ESC+:wq保存退出
 		`chown -R oracle:oinstall /u01`  
 	![创建用户和组](images/docker/centos/install/oracle/创建用户和组.png "创建用户和组")  
 
-4. 修改内核参数
+4. 修改内核参数  
 	- 修改/etc/sysctl.conf 文件  
 		`vi /etc/sysctl.conf`  
 		修改以下参数：  
@@ -188,7 +188,7 @@ ESC+:wq保存退出
 		` session    required     pam_limits.so`  
 	![修改内核参数](images/docker/centos/install/oracle/修改内核参数.png "修改内核参数")  
 
-5. 设置环境变量
+5. 设置环境变量  
 	`vi /etc/profile`，追加以下内容：  
 	`export ORACLE_BASE=/u01/app/oracle`  
 	`export ORACLE_HOME=/u01/app/oracle/product/11.2.0.1/db_1`  
@@ -199,7 +199,7 @@ ESC+:wq保存退出
 	![环境变量](images/docker/centos/install/oracle/环境变量.png "环境变量")  
 	*注意安装路径与响应文件一致*
 	
-6. 修改响应文件
+6. 修改响应文件  
 	在主机上(容器外)解压Oracle安装包到主机上的share目录，linux.x64_11gR2_database_1of2.zip和linux.x64_11gR2_database_2of2.zip，找到响应文件所在目录[*/database/response/]，有以下三个响应文件需要配置：  
 	- db_install.rsp	//静默安装Oracle  
 	- netca.rsp			//静默安装网络监听，一般使用默认配置即可，不用修改  
@@ -237,7 +237,7 @@ ESC+:wq保存退出
 		`CHARACTERSET="UTF8"`  
 		`TOTALMEMORY = "800"`  
 
-7. 静默安装
+7. 静默安装  
 	进入oracle安装文件主目录[*/database]，执行命令：  
 	`./runInstaller -silent -ignorePrereq -responseFile [your file path]/db_install.rsp`  
 	- -silent：静默方式安装  
@@ -246,6 +246,19 @@ ESC+:wq保存退出
 	接下来将是一个漫长的等待，直到出现如下成功提示：  
 	![安装成功](images/docker/centos/install/oracle/安装成功.png "安装成功")  
 
+8. 系统初始化  
+	切换至root用户，执行命令：  
+	`sh /u01/app/oraInventory/orainstRoot.sh`  
+	`sh /u01/app/oracle/product/11.2.0.1/db_1/root.sh`  
+	![初始化](images/docker/centos/install/oracle/初始化.png "初始化")  
+
+9. 安装网络监听器
+	切换至oracle用户，执行命令:  
+	`$ORACLE_HOME/bin/netca /silent /responseFile [your file path]/netca.rsp`  
+	![安装网络监听器](images/docker/centos/install/oracle/安装网络监听器.png "安装网络监听器")  
+	`$ORACLE_HOME/bin/lsnrctl status` 查看监听状态  
+	![监听状态](images/docker/centos/install/oracle/监听状态.png "监听状态")  
+	修改$ORACLE_HOME/bin/dbstart文件，将`ORACLE_HOME_LISTNER=$1`改为`ORACLE_HOME_LISTNER=$ORACLE_HOME`，否则网络监听器可能无法自动启动  
 
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
@@ -271,9 +284,14 @@ ESC+:wq保存退出
 
 ##常见问题解决 
 1. /sbin/mount.vboxsf: mounting failed with the error: No such device  
-[mount no suce device](images/docker/problems/1.png "mount no suce device")  
+![mount no suce device](images/docker/problems/1.png "mount no suce device")  
 解决办法：  
 可能是没有载入内核模块 vboxfs ，先查看下：  
 `lsmod | grep vboxsf`  
 如果没有结果返回，说明 vboxsf没有载入，执行  
 `sudo modprobe vboxsf`  
+
+##参考
+- Oracle静默安装
+	- [Oracle静默安装](http://blog.csdn.net/l106439814/article/details/24231013 "Oracle静默安装")  
+	- [](http://blog.csdn.net/l106439814/article/details/24231013 "O")
