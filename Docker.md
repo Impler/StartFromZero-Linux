@@ -189,13 +189,15 @@ ESC+:wq保存退出
 	![修改内核参数](images/docker/centos/install/oracle/修改内核参数.png "修改内核参数")  
 
 5. 设置环境变量  
-	`vi /etc/profile`，追加以下内容：  
+	切换至oracle用户，编辑~/.bashrc文件  
+	`vi ~/.bashrc`，追加以下内容：  
 	`export ORACLE_BASE=/u01/app/oracle`  
 	`export ORACLE_HOME=/u01/app/oracle/product/11.2.0.1/db_1`  
 	`export PATH=$ORACLE_HOME/bin:$PATH`  
 	`export LD_LIBRARY_PATH=/usr/lib:/lib:$LD_LIBRARY_PATH:$ORACLE_HOME/lib`  
-	`export ORACLE_SID=orcl`  
-	运行`source /etc/profile`，使其立即生效  
+	`export ORACLE_SID=orcl`
+	`export ORACLE_UNQNAME=$ORACLE_SID`  
+	运行`source ~/.bashrc`，使其立即生效  
 	![环境变量](images/docker/centos/install/oracle/环境变量.png "环境变量")  
 	*注意安装路径与响应文件一致*
 	
@@ -252,7 +254,7 @@ ESC+:wq保存退出
 	`sh /u01/app/oracle/product/11.2.0.1/db_1/root.sh`  
 	![初始化](images/docker/centos/install/oracle/初始化.png "初始化")  
 
-9. 安装网络监听器
+9. 安装网络监听器  
 	切换至oracle用户，执行命令:  
 	`$ORACLE_HOME/bin/netca /silent /responseFile [your file path]/netca.rsp`  
 	![安装网络监听器](images/docker/centos/install/oracle/安装网络监听器.png "安装网络监听器")  
@@ -266,8 +268,16 @@ ESC+:wq保存退出
 	![安装数据库实例](images/docker/centos/install/oracle/安装数据库实例.png "安装数据库实例")  
 	修改/etc/oratab文件，将[ORACLE SID]:[ORACLE HOME]:N修改为Y，使数据库实例能够自动启动：  
 	![修改oratab](images/docker/centos/install/oracle/修改oratab.png "修改oratab")  
-	
-11. 启动oracle  
+
+11. 安装管理控制台(OEM)  
+	首先检查管理控制台状态:  
+	`emctl status dbconsole`  
+	如果报错，或其他文件找不到等问题，建议重新安装：
+	`emca -config dbcontrol db -repos recreate`  
+	按照提示一次输入sid，port等关键信息，接下来静待安装成功，期间可能log中会显示诸多Warning和Error信息，暂且不用管，一切等到安装结束后，以是否可以操作管理控制台为准  
+	  
+
+12. 启动oracle  
 	首先检查监听是否启动：  
 	`$ORACLE_HOME/bin/lsnrctl status`  
 	如果监听没有启动，先启动监听:  
@@ -282,9 +292,20 @@ ESC+:wq保存退出
 #####提交备份容器
 退出oracle容器，并将该容器提交为新的镜像，导出备份，以便日后使用  
 	`docker commit [container id] [image name]`  
-	`docker save [image name/id] > [backup path]`  
+	`docker save [image name/id] > [backup file path]`  
 ![提交更新容器](images/docker/centos/install/oracle/提交更新容器.png "提交更新容器")  
-	
+
+#####导入备份镜像
+如果需要在新的机器上部署oracle容器，没必要每次都从头开始操作，可以导入备份的镜像，从而生成新的容器  
+使用load命令，导入已有的镜像备份：  
+	`docker load < [backup file path]`  
+![导入镜像](images/docker/centos/install/oracle/导入镜像.png "导入镜像")  
+在备份镜像基础上创建容器时会重新分配容器ID，也就是容器中主机名较之备份前发生改变，所以需要手动将oracle监听文件`$ORACLE_HOME/network/admin/listener.ora`中的HOST改为当前主机名称：  
+![修改主机名称](images/docker/centos/install/oracle/修改主机名称.png "修改主机名称")  
+这样就可以按照上述操作步骤操作Oracle了  
+*注意*：由于导入镜像时无法自定义镜像名称，只能由备份文件名称决定，所以为了避免不必要的麻烦，导入镜像前应先检查是否已经存在同名镜像
+
+
 
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
