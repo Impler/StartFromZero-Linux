@@ -272,7 +272,7 @@ ESC+:wq保存退出
 11. 安装管理控制台(OEM)  
 	首先检查管理控制台状态:  
 	`emctl status dbconsole`  
-	如果报错，或其他文件找不到等问题，建议重新安装：
+	如果报错，或其他文件找不到等问题，建议重新安装：  
 	`emca -config dbcontrol db -repos recreate`  
 	![重建oem](images/docker/centos/install/oracle/重建oem.png "重建oem")  
 	按照提示一次输入sid，port，用户密码等关键信息，接下来静待安装成功，期间可能log中会显示诸多下图Warning和Error信息，暂且不用管，一切等到安装结束后，以是否可以操作管理控制台为准  
@@ -346,5 +346,5 @@ ESC+:wq保存退出
 
 ##参考
 - Oracle静默安装
-	- [Oracle静默安装](http://blog.csdn.net/l106439814/article/details/24231013 "Oracle静默安装")  
+	- [http://blog.csdn.net/l106439814/article/details/24231013](http://blog.csdn.net/l106439814/article/details/24231013 "Oracle静默安装")  
 	- [](http://blog.csdn.net/l106439814/article/details/24231013 "O")
