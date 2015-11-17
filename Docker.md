@@ -274,8 +274,14 @@ ESC+:wq保存退出
 	`emctl status dbconsole`  
 	如果报错，或其他文件找不到等问题，建议重新安装：
 	`emca -config dbcontrol db -repos recreate`  
-	按照提示一次输入sid，port等关键信息，接下来静待安装成功，期间可能log中会显示诸多Warning和Error信息，暂且不用管，一切等到安装结束后，以是否可以操作管理控制台为准  
-	  
+	![重建oem](images/docker/centos/install/oracle/重建oem.png "重建oem")  
+	按照提示一次输入sid，port，用户密码等关键信息，接下来静待安装成功，期间可能log中会显示诸多下图Warning和Error信息，暂且不用管，一切等到安装结束后，以是否可以操作管理控制台为准  
+	![oem错误](images/docker/centos/install/oracle/oem错误.png "oem错误")  
+	安装完成后，访问管理控制台url，查看是否能够收到响应：  
+	`curl [oracle em console url]`  
+	![oem成功](images/docker/centos/install/oracle/oem成功.png "oem成功")  
+	如果如上图所示，即表示安装成功，可以继续在浏览器中验证  
+	通过命令`emctl start/stop dbconsole`启动/停止管理控制台  
 
 12. 启动oracle  
 	首先检查监听是否启动：  
