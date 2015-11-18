@@ -8,7 +8,7 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 修改docker配置文件，在Ubuntu系统中的配置文件为/etc/default/dockerfile。添加配置`DOCKER_OPTS="--storage-opt dm.basesize=30G"`将默认容器空间改为30G  
 ![配置文件](images/docker/container/配置文件.png "Docker配置文件")  
 
-*参考：*  
+*参考*  
 静态扩容：[https://sasikanthkotti.wordpress.com/category/docker/](https://sasikanthkotti.wordpress.com/category/docker/)  
 动态扩容：[http://www.linuxeye.com/Linux/2114.html](http://www.linuxeye.com/Linux/2114.html)  
 ##Docker数据管理
@@ -134,7 +134,7 @@ ESC+:wq保存退出
 ####静默安装Oracle11g  
 #####准备
 - 操作系统：CentOS Linux release 7.1.1503 (Core)  
-- Oracle: linux.x64_11gR2  
+- Oracle: linux.x64\_11gR2\_database\_1of2.zip linux.x64\_11gR2\_database\_2of2.zip  
 
 #####安装  
 
@@ -293,9 +293,8 @@ ESC+:wq保存退出
 	`sqlplus sys as sysdba`  
 	`startup`  
 	![启动oracle](images/docker/centos/install/oracle/启动oracle2.png "启动oracle")  
-	也可使用`dbstart`启动  
-
-#####提交备份容器
+	也可使用`dbstart`启动   
+#####备份镜像
 退出oracle容器，并将该容器提交为新的镜像，导出备份，以便日后使用  
 	`docker commit [container id] [image name]`  
 	`docker save [image name/id] > [backup file path]`  
@@ -309,10 +308,58 @@ ESC+:wq保存退出
 在备份镜像基础上创建容器时会重新分配容器ID，也就是容器中主机名较之备份前发生改变，所以需要手动将oracle监听文件`$ORACLE_HOME/network/admin/listener.ora`中的HOST改为当前主机名称：  
 ![修改主机名称](images/docker/centos/install/oracle/修改主机名称.png "修改主机名称")  
 这样就可以按照上述操作步骤操作Oracle了  
-*注意*：由于导入镜像时无法自定义镜像名称，只能由备份文件名称决定，所以为了避免不必要的麻烦，导入镜像前应先检查是否已经存在同名镜像
+*注意*：由于导入镜像时无法自定义镜像名称，只能由备份文件名称决定，所以为了避免不必要的麻烦，导入镜像前应先检查是否已经存在同名镜像  
+*参考*  
+[http://blog.csdn.net/l106439814/article/details/24231013](http://blog.csdn.net/l106439814/article/details/24231013 "Oracle静默安装") 
+####静默安装WAS8.5  
+#####准备
+- 操作系统：CentOS Linux release 7.1.1503 (Core)  
+- WAS: WASND\_v8.5.5\_1of3.zip WASND\_v8.5.5\_2of3.zip WASND\_v8.5.5\_3of3.zip  
+- WAS install manager： Install\_Mgr\_v1.6.2\_Lnx_WASv8.5.5.zip  
 
+#####安装
+1. 解压文件  
+	在主机中将WAS安装文件WASND\_v8.5.5\_1of3.zip WASND\_v8.5.5\_2of3.zip WASND\_v8.5.5\_3of3.zip解压到/share/was目录，将Install\_Mgr\_v1.6.2\_Lnx_WASv8.5.5.zip解压到/share/wasmgr目录  
+2. 创建基础容器
+	基于本地centos镜像创建WAS容器，将主机/share目录作为共享目录，并暴露9080，9060端口，以便测试  
+	`docker run -it --name was -v /share:/share -p 9080:9080 -p 9060:9060 --privileged centos`  
+3. 安装WAS install manager  
+	进入容器共享目录：  
+	`/share/wasmg`  
+	执行命令：  
+	`./installc  -acceptLicense -accessRights admin -installationDirectory "/opt/WebSphere85/IMGR" -dataLocation "/opt/WebSphere85/Imdata" -silent`  
+	![安装installmanager](images/docker/centos/install/was/安装installmanager.png "安装installmanager")  
+4. 安装WAS  
+	进入install manager安装路径：  
+	`cd /opt/WebSphere85/IMGR/eclipse/tools`  
+	执行命令：  
+	`./imcl listAvailablePackages -repositories /share/was/repository.config`  
+	![安装WAS1](images/docker/centos/install/was/安装WAS1.png "安装WAS1")  
+	注意输出，用在下面的命令中：  
+	`./imcl -acceptLicense -showProgress install com.ibm.websphere.ND.v85_8.5.5000.20130514_1044 -repositories  /share/was/repository.config`  
+	![安装WAS2](images/docker/centos/install/was/安装WAS2.png "安装WAS2")  
+5. 创建一个默认profile  
+	进入WAS bin目录：  
+	`cd /opt/IBM/WebSphere/AppServer/bin`  
+	执行命令：  
+	`./manageprofiles.sh -create -templatePath /opt/IBM/WebSphere/AppServer/profileTemplates/default/`  
+	![安装profile](images/docker/centos/install/was/安装profile.png "安装profile")  
+#####启动WAS
+为了方便操作，可以将WAS的bin目录添加到PATH环境变量中  
+进入WAS bin目录：  
+	`cd /opt/IBM/WebSphere/AppServer/bin`  
+执行startServer：  
+	`./startServer.sh server1`  
+![启动was](images/docker/centos/install/was/启动was.png "启动was")  
+接下来可以使用浏览器登录WAS管理控制台和访问默认应用snoop  
+![was管理控制台](images/docker/centos/install/was/was管理控制台.png "was管理控制台")  
+![snoop](images/docker/centos/install/was/snoop.png "snoop")  
+	
+#####备份镜像
+同Oracle  
 
-
+*参考*  
+[https://github.com/tinytelly/docker-websphere](https://github.com/tinytelly/docker-websphere "WAS静默安装")  
 ###在容器与主机之间传输文件
 ####从主机拷贝文件到容器中
 1. 使用命令 sudo cp [host file path] /var/lib/docker/aufs/mnt/[full container id]/[target file path]  
@@ -343,8 +390,3 @@ ESC+:wq保存退出
 `lsmod | grep vboxsf`  
 如果没有结果返回，说明 vboxsf没有载入，执行  
 `sudo modprobe vboxsf`  
-
-##参考
-- Oracle静默安装
-	- [http://blog.csdn.net/l106439814/article/details/24231013](http://blog.csdn.net/l106439814/article/details/24231013 "Oracle静默安装")  
-	- [](http://blog.csdn.net/l106439814/article/details/24231013 "O")
