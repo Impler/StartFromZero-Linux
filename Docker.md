@@ -1,5 +1,8 @@
 #Docker
+##镜像
+镜像是一个只读的模板。可以使用镜像创建容器。镜像中可以包含整个Linux操作系统，以及其他可以运行在操作系统中的应用。  
 ##容器
+容器是应用的运行环境，相当于一个简易版Linux环境。容器由镜像创建，可以被启动、停止、删除。容器运行在docker引擎之上，相互隔离，互不影响。  
 ###扩容
 Docker默认为容器分配10G的存储空间，显然这不能满足日常的需求。有两种办法解决这一问题：  
 1. 静态扩容  
@@ -11,6 +14,8 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 *参考*  
 静态扩容：[https://sasikanthkotti.wordpress.com/category/docker/](https://sasikanthkotti.wordpress.com/category/docker/)  
 动态扩容：[http://www.linuxeye.com/Linux/2114.html](http://www.linuxeye.com/Linux/2114.html)  
+##仓库
+仓库是集中存放镜像的场所，概念与git类似。
 ##Docker数据管理
 在容器中管理数据主要有两种方式：  
 1. 数据卷  
@@ -42,6 +47,37 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 - Dockerfile VOLUME  
 在Dockerfile文件中，使用VOLUME [container path]的形式创建数据卷，效果同上述第一种方式。  
 ##Dockerfile
+用户可以使用Dockerfile自定义镜像  
+###Dockerfile常用指令
+- FROM Dockerfile的第一条指令，意为以哪个镜像为基础创建新的镜像  
+	`FROM <image>`或`FROM <image>:<tag>`  
+- MAINTAINER 标识维护者信息  
+	`MAINTAINER <name>`  
+- RUN 在当前镜像基础上执行命令，并提交为新的镜像  
+	`RUN <command>`  --在shell终端中运行命令  
+	或`RUN ['executable', 'param1', ...,'paramN']`  --使用exec执行命令  
+- CMD 启动容器时执行的命令，每个Dockerfile只能有一条CMD命令，如果指定多条，只有最后一条会被执行。如果用户启动容器时指定了运行的命令(RUN)，将会覆盖CMD指定的命令  
+	`CMD ['executable', 'param1', ...,'paramN']` --使用exec执行  
+	`CMD <command> <param1> ... <paramN>` --在shell中执行，提供给需要交互的应用  
+	`CMD ['param1', ..., paramN]` --提供给ENTRYPOINT的默认参数  
+- EXPOSE 暴露容器端口  
+	`EXPOSE <port1> ... <portN>`  
+- ENV 指定环境变量，后续的RUN命令可以访问的到，并在容器运行时保持  
+	`ENV <key> <value>`  
+- ADD 将src复制到容器的dest中, src可以是Dockerfile所在目录的相对路径，也可以是URL，也可以是tar文件(自动解压为目录)  
+	`ADD <src> <dest>`  
+- COPY 复制本地住的的src到容器的dest中，src为Dockerfile所在目录的相对路径。当使用本地目录为源目录时，推荐使用COPY  
+	`COPY <src> <dest>`  
+- ENTRYPOINT 启动容器时指定的命令，并且不会被启动容器时指定的运行命令(RUN)覆盖，每个Dockerfile只能由一个ENTRYPOINT命令 
+	`ENTRYPOINT ['executable', 'param1', ..., 'paramN']`  
+	`ENTRYPPINT command param1 param2`  
+- VOLUME 创建一个可以从本地主机或其他容器挂载的挂载点  
+	`VOLUME ['<container directory>']`  
+- USER 指定运行容器时的用户  
+	`USER <username>`  
+- WORKDIR 为RUN, CMD, ENTRYPOINT指令配置工作目录，如果使用相对路径，后面的路径则会基于前面的路径  
+	`WORKDIR <directory>`  
+- ONBUILD 配置当所创建的镜像作为其他新创建镜像的基础镜像时，所执行的操作指令  
 ###Dockerfile实例
 1. 支持SSH服务容器(ubuntu)  
 	`FROM ubuntu:14.04`  
