@@ -77,7 +77,8 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 	`USER <username>`  
 - WORKDIR 为RUN, CMD, ENTRYPOINT指令配置工作目录，如果使用相对路径，后面的路径则会基于前面的路径  
 	`WORKDIR <directory>`  
-- ONBUILD 配置当所创建的镜像作为其他新创建镜像的基础镜像时，所执行的操作指令  
+- ONBUILD 配置当所创建的镜像作为其他新创建镜像的基础镜像时，所执行的操作指令
+  
 ###Dockerfile实例
 1. 支持SSH服务容器(ubuntu)  
 	`FROM ubuntu:14.04`  
@@ -231,7 +232,7 @@ ESC+:wq保存退出
 	`export ORACLE_HOME=/u01/app/oracle/product/11.2.0.1/db_1`  
 	`export PATH=$ORACLE_HOME/bin:$PATH`  
 	`export LD_LIBRARY_PATH=/usr/lib:/lib:$LD_LIBRARY_PATH:$ORACLE_HOME/lib`  
-	`export ORACLE_SID=orcl`
+	`export ORACLE_SID=orcl`  
 	`export ORACLE_UNQNAME=$ORACLE_SID`  
 	运行`source ~/.bashrc`，使其立即生效  
 	![环境变量](images/docker/centos/install/oracle/环境变量.png "环境变量")  
