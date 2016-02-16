@@ -9,7 +9,7 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 2. 动态扩容
 ####静态扩容
 修改docker配置文件，在Ubuntu系统中的配置文件为/etc/default/dockerfile。添加配置`DOCKER_OPTS="--storage-opt dm.basesize=30G"`将默认容器空间改为30G  
-![配置文件](images/docker/container/配置文件.png "Docker配置文件")  
+![配置文件](../images/docker/container/配置文件.png "Docker配置文件")  
 
 *参考*  
 静态扩容：[https://sasikanthkotti.wordpress.com/category/docker/](https://sasikanthkotti.wordpress.com/category/docker/)  
