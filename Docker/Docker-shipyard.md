@@ -1,4 +1,4 @@
-#Shipyardd
+#Shipyard
 Shipyard是建立在docker集群管理工具Citadel之上的可以管理容器、主机等资源的web图形化工具。包括core和extension两个版本，core即shipyard主要是把多个 Docker host上的 containers 统一管理（支持跨越多个host），extension即shipyard-extensions添加了应用路由和负载均衡、集中化日志、部署等。
 ##安装
 官网[https://shipyard-project.com/docs/deploy/](https://shipyard-project.com/docs/deploy/ "https://shipyard-project.com/docs/deploy/") 提供手动和自动两种安装方式，经测试手动安装尚不能成功，故以下采用的是自动安装方式。安装之前需要修改两个配置。  
