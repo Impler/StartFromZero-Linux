@@ -14,28 +14,29 @@ samba可以方便的在Linux系统与windows系统之间架设共享服务。
 将配置文件备份  
 `mv /etc/samba/smb.conf /etc/samba/smb.conf.bak`  
 在配置文件中添加如下内容  
-    
-	[global]  
-	workgroup = WORKGROUP  
-	server string = Samba Server %v  
-	netbios name = centos  
-	security = user  
-	map to guest = bad user  
-	dns proxy = no  
-	`#==================== Share Definitions =================`
-	[share]                   //共享/share目录，名称为share，允许任何用户访问
-	path = /share
-	browsable = yes
-	writable = yes
-	guest ok = yes
-	read only = no
-  
-	[samba]  				 //共享/opt/test目录，名称为samba，只允许指定的用户访问
-	path = /opt/test
-	browsable =yes  
-	writable = yes  
-	guest ok = no  
-	read only = no
+	
+		[global]  
+		workgroup = WORKGROUP  
+		server string = Samba Server %v  
+		netbios name = centos  
+		security = user  
+		map to guest = bad user  
+		dns proxy = no  
+		`#==================== Share Definitions =================`
+		[share]                   //共享/share目录，名称为share，允许任何用户访问
+		path = /share
+		browsable = yes
+		writable = yes
+		guest ok = yes
+		read only = no
+	  
+		[samba]  				 //共享/opt/test目录，名称为samba，只允许指定的用户访问
+		path = /opt/test
+		browsable =yes  
+		writable = yes  
+		guest ok = no  
+		read only = no
+
 
 - 创建系统用户  
 `groupadd sambagroup`  
