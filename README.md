@@ -1,2 +1,3 @@
 # StartFromZero-Linux
-学习Linux 及相关技术
+- Linux基础知识
+- Docker容器技术

@@ -1,6 +1,7 @@
-#Linux(Ubuntu)
+#Linux
 
 ##Linux常用命令
+###Ubuntu
 1 基本操作
 - su: 切换用户
 
@@ -18,3 +19,5 @@
 
 3 解压文件
 - tar -zxvf [tar.gz文件名称]: 解压tar.gz文件到当前目录
+
+###Centos
