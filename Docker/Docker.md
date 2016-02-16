@@ -36,13 +36,13 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 例如：将/share目录作为数据卷挂载到容器中：
 	`docker run -i -t  --name tutorial -v /share learn/tutorial `  
 我们可以通过`docker inspect` 命令查看数据卷在主机中的位置：  
-![创建数据卷](images/docker/datavolumes/创建数据卷.png "创建数据卷")  
+![创建数据卷](../images/docker/datavolumes/创建数据卷.png "创建数据卷")  
 你将看到形如下图的数据卷在主机中的位置：  
-![查看数据卷](images/docker/datavolumes/查看数据卷.png "查看数据卷")  
+![查看数据卷](../images/docker/datavolumes/查看数据卷.png "查看数据卷")  
 这样我们就可以“方便的”在这么深的文件目录中操作传输文件  
 	2. 挂载主机指定目录作为数据卷  
 我们可以指定主机上的目录作为数据卷而避免上述方法的繁琐。同样的，在创建容器时，通过`-v [host file path] : [container file path]`参数来创建数据卷  
-![挂载主机目录作为数据卷](images/docker/datavolumes/挂载主机目录作为数据卷.png "挂载主机目录作为数据卷")  
+![挂载主机目录作为数据卷](../images/docker/datavolumes/挂载主机目录作为数据卷.png "挂载主机目录作为数据卷")  
 
 - Dockerfile VOLUME  
 在Dockerfile文件中，使用VOLUME [container path]的形式创建数据卷，效果同上述第一种方式。  
@@ -112,9 +112,9 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 1. 到[https://www.docker.com/toolbox](https://www.docker.com/toolbox)下载Docker Toolbox（支持Mac OS X 10.8+ 和 Windows(64bit) 7+）软件并安装，安装过程中记得勾选安装VirtualBox虚拟机，将会自动在虚拟机中安装CentOS系统。  
 2. 通过Docker Quickstart Terminal启动程序，第一次启动较慢，因为要拉起虚拟机启动CentOS系统。  CentOS中已经安装好了docker，我们可以通过命令查看:  
 	`docker version`  
-![首屏](images/docker/windows/install/首屏.png "首屏")  
+![首屏](../images/docker/windows/install/首屏.png "首屏")  
 3. 为了方便操作，我们为CentOS挂在本地共享目录。  
-![共享本地目录](images/docker/windows/install/共享本地目录.png "共享本地目录")  
+![共享本地目录](../images/docker/windows/install/共享本地目录.png "共享本地目录")  
 
 4. 将共享目录挂载到CentOS中的/share目录, VMShare为主机共享文件夹名称，/share为CentOS挂载目录  
 	`mkdir /share`  
@@ -122,7 +122,7 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 测试：  
 	`cd /share`  
 	`ll`  
-![测试共享目录](images/docker/windows/install/测试共享目录.png "测试共享目录")  
+![测试共享目录](../images/docker/windows/install/测试共享目录.png "测试共享目录")  
 
 ####Ubuntu
 当前系统版本号为Ubuntu 14.04  
@@ -136,7 +136,7 @@ Docker默认为容器分配10G的存储空间，显然这不能满足日常的�
 	`sudo apt-get update`  
 	`sudo apt-get install lxc-docker`  
     最后确认是否安装成功：docker version  
-![Docker版本](images/docker/ubuntu/install/Docker版本.png "Docker版本")  
+![Docker版本](../images/docker/ubuntu/install/Docker版本.png "Docker版本")  
 	- 免sudo操作Docker  
 		每次使用Docker，都要在命令前加sudo（表示获取root权限执行），特别不方便，为此，我们将当前用户加入到docker group中即可  
         `sudo groupadd docker` #创建docker group  
@@ -157,16 +157,16 @@ Dockerfile内容如下:
 	`run tar zxvf jdk-7u67-linux-x64.tar.gz` #解压到当前目录下  
 	`ENV JAVA_HOME /opt/java/jdk1.7.0_67` #设置环境变量  
 	`ENV PATH $PATH:$JAVA_HOME/bin`  
-![Dockerfile文件](images/docker/windows/installjdk/Dockerfile文件.png "Dockerfile文件")  
+![Dockerfile文件](../images/docker/windows/installjdk/Dockerfile文件.png "Dockerfile文件")  
 ESC+:wq保存退出  
 *注意：*经测试copy 命令只能拷贝与Dockerfile同级目录文件，所以在编写Dockerfile文件之前，先把jdk压缩包拷贝到Dockerfile同级目录  
 4. 创建镜像  
 	`docker build [option] [image name] .` #根据Dockerfile配置，生成镜像  
-![整个过程](images/docker/windows/installjdk/过程.png "过程")  
+![整个过程](../images/docker/windows/installjdk/过程.png "过程")  
 5. 启动容器并测试  
 	`docker run -i -t --name hello hello-java`  
 	`java -version`
-![测试容器](images/docker/windows/installjdk/测试容器.png "测试容器")  
+![测试容器](../images/docker/windows/installjdk/测试容器.png "测试容器")  
 
 ####静默安装Oracle11g  
 #####准备
@@ -193,7 +193,7 @@ ESC+:wq保存退出
 	- 创建oracle安装目录，并赋予oracle用户权限  
 		`mkdir /u01`  
 		`chown -R oracle:oinstall /u01`  
-	![创建用户和组](images/docker/centos/install/oracle/创建用户和组.png "创建用户和组")  
+	![创建用户和组](../images/docker/centos/install/oracle/创建用户和组.png "创建用户和组")  
 
 4. 修改内核参数  
 	- 修改/etc/sysctl.conf 文件  
@@ -223,7 +223,7 @@ ESC+:wq保存退出
 		`oracle           hard    nofile  65536`  
 		`vi /etc/pam.d/login`，添加如下行：  
 		` session    required     pam_limits.so`  
-	![修改内核参数](images/docker/centos/install/oracle/修改内核参数.png "修改内核参数")  
+	![修改内核参数](../images/docker/centos/install/oracle/修改内核参数.png "修改内核参数")  
 
 5. 设置环境变量  
 	切换至oracle用户，编辑~/.bashrc文件  
@@ -235,7 +235,7 @@ ESC+:wq保存退出
 	`export ORACLE_SID=orcl`  
 	`export ORACLE_UNQNAME=$ORACLE_SID`  
 	运行`source ~/.bashrc`，使其立即生效  
-	![环境变量](images/docker/centos/install/oracle/环境变量.png "环境变量")  
+	![环境变量](../images/docker/centos/install/oracle/环境变量.png "环境变量")  
 	*注意安装路径与响应文件一致*
 	
 6. 修改响应文件  
@@ -283,40 +283,40 @@ ESC+:wq保存退出
 	- -ignorePrereq：忽略前期可行性检查  
 	- -responseFile：指定响应文件目录  
 	接下来将是一个漫长的等待，直到出现如下成功提示：  
-	![安装成功](images/docker/centos/install/oracle/安装成功.png "安装成功")  
+	![安装成功](../images/docker/centos/install/oracle/安装成功.png "安装成功")  
 
 8. 系统初始化  
 	切换至root用户，执行命令：  
 	`sh /u01/app/oraInventory/orainstRoot.sh`  
 	`sh /u01/app/oracle/product/11.2.0.1/db_1/root.sh`  
-	![初始化](images/docker/centos/install/oracle/初始化.png "初始化")  
+	![初始化](../images/docker/centos/install/oracle/初始化.png "初始化")  
 
 9. 安装网络监听器  
 	切换至oracle用户，执行命令:  
 	`$ORACLE_HOME/bin/netca /silent /responseFile [your file path]/netca.rsp`  
-	![安装网络监听器](images/docker/centos/install/oracle/安装网络监听器.png "安装网络监听器")  
+	![安装网络监听器](../images/docker/centos/install/oracle/安装网络监听器.png "安装网络监听器")  
 	`$ORACLE_HOME/bin/lsnrctl status` 查看监听状态  
-	![监听状态](images/docker/centos/install/oracle/监听状态.png "监听状态")  
+	![监听状态](../images/docker/centos/install/oracle/监听状态.png "监听状态")  
 	修改$ORACLE_HOME/bin/dbstart文件，将`ORACLE_HOME_LISTNER=$1`改为`ORACLE_HOME_LISTNER=$ORACLE_HOME`，否则网络监听器可能无法自动启动  
 
 10. 安装数据库实例  
 	静默安装数据库实例，依赖[6]中的修改的dbca.rsp文件：  
 	`$ORACLE_HOME/bin/dbca -silent -responseFIle [your file path]/dbca.rsp`  
-	![安装数据库实例](images/docker/centos/install/oracle/安装数据库实例.png "安装数据库实例")  
+	![安装数据库实例](../images/docker/centos/install/oracle/安装数据库实例.png "安装数据库实例")  
 	修改/etc/oratab文件，将[ORACLE SID]:[ORACLE HOME]:N修改为Y，使数据库实例能够自动启动：  
-	![修改oratab](images/docker/centos/install/oracle/修改oratab.png "修改oratab")  
+	![修改oratab](../images/docker/centos/install/oracle/修改oratab.png "修改oratab")  
 
 11. 安装管理控制台(OEM)  
 	首先检查管理控制台状态:  
 	`emctl status dbconsole`  
 	如果报错，或其他文件找不到等问题，建议重新安装：  
 	`emca -config dbcontrol db -repos recreate`  
-	![重建oem](images/docker/centos/install/oracle/重建oem.png "重建oem")  
+	![重建oem](../images/docker/centos/install/oracle/重建oem.png "重建oem")  
 	按照提示一次输入sid，port，用户密码等关键信息，接下来静待安装成功，期间可能log中会显示诸多下图Warning和Error信息，暂且不用管，一切等到安装结束后，以是否可以操作管理控制台为准  
-	![oem错误](images/docker/centos/install/oracle/oem错误.png "oem错误")  
+	![oem错误](../images/docker/centos/install/oracle/oem错误.png "oem错误")  
 	安装完成后，访问管理控制台url，查看是否能够收到响应：  
 	`curl [oracle em console url]`  
-	![oem成功](images/docker/centos/install/oracle/oem成功.png "oem成功")  
+	![oem成功](../images/docker/centos/install/oracle/oem成功.png "oem成功")  
 	如果如上图所示，即表示安装成功，可以继续在浏览器中验证  
 	通过命令`emctl start/stop dbconsole`启动/停止管理控制台  
 
@@ -325,25 +325,25 @@ ESC+:wq保存退出
 	`$ORACLE_HOME/bin/lsnrctl status`  
 	如果监听没有启动，先启动监听:  
 	`$ORACLE_HOME/bin/lsnrctl start`  
-	![启动oracle](images/docker/centos/install/oracle/启动oracle1.png "启动oracle")  
+	![启动oracle](../images/docker/centos/install/oracle/启动oracle1.png "启动oracle")  
 	使用sqlplus连接oracle，并启动oracle实例：  
 	`sqlplus sys as sysdba`  
 	`startup`  
-	![启动oracle](images/docker/centos/install/oracle/启动oracle2.png "启动oracle")  
+	![启动oracle](../images/docker/centos/install/oracle/启动oracle2.png "启动oracle")  
 	也可使用`dbstart`启动   
 #####备份镜像
 退出oracle容器，并将该容器提交为新的镜像，导出备份，以便日后使用  
 	`docker commit [container id] [image name]`  
 	`docker save [image name/id] > [backup file path]`  
-![提交更新容器](images/docker/centos/install/oracle/提交更新容器.png "提交更新容器")  
+![提交更新容器](../images/docker/centos/install/oracle/提交更新容器.png "提交更新容器")  
 
 #####导入备份镜像
 如果需要在新的机器上部署oracle容器，没必要每次都从头开始操作，可以导入备份的镜像，从而生成新的容器  
 使用load命令，导入已有的镜像备份：  
 	`docker load < [backup file path]`  
-![导入镜像](images/docker/centos/install/oracle/导入镜像.png "导入镜像")  
+![导入镜像](../images/docker/centos/install/oracle/导入镜像.png "导入镜像")  
 在备份镜像基础上创建容器时会重新分配容器ID，也就是容器中主机名较之备份前发生改变，所以需要手动将oracle监听文件`$ORACLE_HOME/network/admin/listener.ora`中的HOST改为当前主机名称：  
-![修改主机名称](images/docker/centos/install/oracle/修改主机名称.png "修改主机名称")  
+![修改主机名称](../images/docker/centos/install/oracle/修改主机名称.png "修改主机名称")  
 这样就可以按照上述操作步骤操作Oracle了  
 *注意*：由于导入镜像时无法自定义镜像名称，只能由备份文件名称决定，所以为了避免不必要的麻烦，导入镜像前应先检查是否已经存在同名镜像  
 *参考*  
@@ -365,32 +365,32 @@ ESC+:wq保存退出
 	`/share/wasmg`  
 	执行命令：  
 	`./installc  -acceptLicense -accessRights admin -installationDirectory "/opt/WebSphere85/IMGR" -dataLocation "/opt/WebSphere85/Imdata" -silent`  
-	![安装installmanager](images/docker/centos/install/was/安装installmanager.png "安装installmanager")  
+	![安装installmanager](../images/docker/centos/install/was/安装installmanager.png "安装installmanager")  
 4. 安装WAS  
 	进入install manager安装路径：  
 	`cd /opt/WebSphere85/IMGR/eclipse/tools`  
 	执行命令：  
 	`./imcl listAvailablePackages -repositories /share/was/repository.config`  
-	![安装WAS1](images/docker/centos/install/was/安装WAS1.png "安装WAS1")  
+	![安装WAS1](../images/docker/centos/install/was/安装WAS1.png "安装WAS1")  
 	注意输出，用在下面的命令中：  
 	`./imcl -acceptLicense -showProgress install com.ibm.websphere.ND.v85_8.5.5000.20130514_1044 -repositories  /share/was/repository.config`  
-	![安装WAS2](images/docker/centos/install/was/安装WAS2.png "安装WAS2")  
+	![安装WAS2](../images/docker/centos/install/was/安装WAS2.png "安装WAS2")  
 5. 创建一个默认profile  
 	进入WAS bin目录：  
 	`cd /opt/IBM/WebSphere/AppServer/bin`  
 	执行命令：  
 	`./manageprofiles.sh -create -templatePath /opt/IBM/WebSphere/AppServer/profileTemplates/default/`  
-	![安装profile](images/docker/centos/install/was/安装profile.png "安装profile")  
+	![安装profile](../images/docker/centos/install/was/安装profile.png "安装profile")  
 #####启动WAS
 为了方便操作，可以将WAS的bin目录添加到PATH环境变量中  
 进入WAS bin目录：  
 	`cd /opt/IBM/WebSphere/AppServer/bin`  
 执行startServer：  
 	`./startServer.sh server1`  
-![启动was](images/docker/centos/install/was/启动was.png "启动was")  
+![启动was](../images/docker/centos/install/was/启动was.png "启动was")  
 接下来可以使用浏览器登录WAS管理控制台和访问默认应用snoop  
-![was管理控制台](images/docker/centos/install/was/was管理控制台.png "was管理控制台")  
-![snoop](images/docker/centos/install/was/snoop.png "snoop")  
+![was管理控制台](../images/docker/centos/install/was/was管理控制台.png "was管理控制台")  
+![snoop](../images/docker/centos/install/was/snoop.png "snoop")  
 	
 #####备份镜像
 同Oracle  
@@ -409,7 +409,7 @@ ESC+:wq保存退出
 ##Docker常用命令
 
 - docker version: 显示docker版本
-- docker images: 显示所有已安装的镜像
+- docker ../images: 显示所有已安装的镜像
 - docker search [镜像名称关键字]: 在官方仓库中搜索镜像。docker search tutorial
 - docker pull [镜像名称]: 从仓库中下载镜像，镜像名称按照用户名/镜像名的方式存储。docker pull learn/tutorial
 - docker run [镜像名称] [命令参数]: 运行镜像。docker run learn/tutorial echo "hello world"
@@ -421,7 +421,7 @@ ESC+:wq保存退出
 
 ##常见问题解决 
 1. /sbin/mount.vboxsf: mounting failed with the error: No such device  
-![mount no suce device](images/docker/problems/1.png "mount no suce device")  
+![mount no suce device](../images/docker/problems/1.png "mount no suce device")  
 解决办法：  
 可能是没有载入内核模块 vboxfs ，先查看下：  
 `lsmod | grep vboxsf`  
